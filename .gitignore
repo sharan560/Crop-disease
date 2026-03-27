@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+.git/
+.venv/
+venv/
+.env
+*.ipynb
+artifacts_tuned_sanity/
+artifacts_test/
+response.json
+test_cors.py
+*.swp
+*.swo
+.DS_Store

@@ -15,7 +15,19 @@ pip install -r requirements.txt
 ## 2) Train the model
 
 ```bash
-python train_disease_model.py --epochs 10
+python train_disease_model.py --head-epochs 8 --fine-tune-epochs 12
+```
+
+For higher accuracy on this dataset, use a longer run:
+
+```bash
+python train_disease_model.py --head-epochs 12 --fine-tune-epochs 25 --batch-size 32 --image-size 224
+```
+
+For stronger minority-class recall (may reduce overall accuracy), enable class weights:
+
+```bash
+python train_disease_model.py --head-epochs 12 --fine-tune-epochs 25 --use-class-weights
 ```
 
 Optional arguments:
@@ -24,6 +36,13 @@ Optional arguments:
 - `--output-dir artifacts`
 - `--image-size 224`
 - `--batch-size 32`
+- `--head-epochs 8`
+- `--fine-tune-epochs 12`
+- `--fine-tune-at 100`
+- `--head-lr 0.001`
+- `--fine-tune-lr 0.00001`
+- `--dropout 0.35`
+- `--use-class-weights`
 - `--test-size 0.15`
 - `--val-size 0.15`
 
@@ -98,6 +117,9 @@ Environment variables supported by the API:
 Training writes these files in `artifacts/`:
 
 - `plant_disease_model.keras` (final model)
+- `best_head_model.keras` (best checkpoint from frozen-backbone stage)
 - `best_model.keras` (best validation checkpoint)
 - `class_names.json` (index-to-class mapping)
 - `train_history.json` (loss/accuracy history)
+- `classification_report.json` (precision/recall/F1 per class)
+- `confusion_matrix.csv` (confusion matrix)
