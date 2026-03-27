@@ -7,6 +7,7 @@ from typing import Any, Dict, List
 import numpy as np
 import tensorflow as tf
 from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
@@ -16,6 +17,14 @@ IMAGE_SIZE = int(os.getenv("IMAGE_SIZE", "224"))
 TOP_K = int(os.getenv("TOP_K", "3"))
 
 app = FastAPI(title="Plant Disease Predictor", version="1.0.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 _model: tf.keras.Model | None = None
 _class_names: List[str] | None = None
